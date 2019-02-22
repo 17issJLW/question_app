@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>提交题目</title>
+    <style type="text/css">
+        .toolbar {
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+        }
+        .text {
+            border: 1px solid #ccc;
+            height: 200px;
+        }
+    </style>
+</head>
+<body style="text-align: center;">
+
+
+<h3>题目</h3>
+<div id="div1" class="toolbar">
+</div>
+<div id="div2" class="text">
+</div>
+
+<h3>选项a</h3>
+<textarea id="option_a" type="text" placeholder="选项a" style="width:200px;height:50px"></textarea>
+<h3>选项b</h3>
+<textarea id="option_b" type="text" placeholder="选项b" style="width:200px;height:50px"></textarea>
+<h3>选项c</h3>
+<textarea id="option_c" type="text" placeholder="选项c" style="width:200px;height:50px"></textarea>
+<h3>选项d</h3>
+<textarea id="option_d" type="text" placeholder="选项d" style="width:200px;height:50px"></textarea>
+<h3>选项e</h3>
+<textarea id="option_e" type="text" placeholder="选项e,没有可以不填" style="width:200px;height:50px"></textarea>
+
+<h3>答案(小写abcd，若为多选，答案间用空格分割，如：a b c)</h3>
+<!--<input id="answer" type="text" placeholder="题目答案(小写abcd)" style="width:200px;height:30px">-->
+<label><input name="answer" type="radio" value="a" /><span style="font-size: 30px;">a</span></label>
+<label><input name="answer" type="radio" value="b" /><span style="font-size: 30px;">b</span></label>
+<label><input name="answer" type="radio" value="c" /><span style="font-size: 30px;">c</span></label>
+<label><input name="answer" type="radio" value="d" /><span style="font-size: 30px;">d</span></label>
+<label><input name="answer" type="radio" value="e" /><span style="font-size: 30px;">e</span></label>
+
+<h3>题目所属科目，如：计算机二级 (注意统一)</h3>
+<input id="course" type="text" value="计算机二级" style="width:200px;height:30px">
+
+<h3>题目章节，如：mysql office(注意统一)</h3>
+<!--<input id="chapter" type="text" placeholder="题目章节" style="width:200px;height:30px">-->
+<label><input name="chapter" type="radio" value="公共" /><span style="font-size: 30px;">公共</span></label>
+<label><input name="chapter" type="radio" value="c语言" /><span style="font-size: 30px;">c语言</span></label>
+<label><input name="chapter" type="radio" value="c++" /><span style="font-size: 30px;">c++</span></label>
+<label><input name="chapter" type="radio" value="vb" /><span style="font-size: 30px;">vb</span></label>
+<label><input name="chapter" type="radio" value="Python" /><span style="font-size: 30px;">python</span></label>
+<br />
+<label><input name="chapter" type="radio" value="java" /><span style="font-size: 30px;">java</span></label>
+<label><input name="chapter" type="radio" value="access" /><span style="font-size: 30px;">access</span></label>
+<label><input name="chapter" type="radio" value="office" /><span style="font-size: 30px;">office</span></label>
+<label><input name="chapter" type="radio" value="mysql" /><span style="font-size: 30px;">mysql</span></label>
+<label><input name="chapter" type="radio" value="web" /><span style="font-size: 30px;">web</span></label>
+
+<h3>题目关键字（知识点，若有多个，中间用空格分开）</h3>
+<input id="keypoint" type="text" placeholder="题目关键字（知识点）" style="width:200px;height:30px">
+
+
+<h3>题目解析</h3>
+<div id="div3">
+</div>
+
+<div style="text-align:center;">
+    <button id="submit" style="width:150px;height:50px">提交</button>
+</div>
+
+<!-- 引用js -->
+<script type="text/javascript" src="jQuery.js"></script>
+<script type="text/javascript" src="wangEditor.min.js"></script>
+<script type="text/javascript">
+
+    var domain = "http://211.159.186.47:8090/api"
+    var E = window.wangEditor
+
+    var editor1 = new E('#div1', '#div2')
+    editor1.customConfig.uploadImgShowBase64 = true
+    editor1.create()
+    // editor1.customConfig.uploadImgServer = '/upload'
+
+    var editor2 = new E('#div3')
+    editor2.customConfig.uploadImgShowBase64 = true
+    editor2.create()
+    // editor2.customConfig.uploadImgServer = '/upload'
+
+
+    document.getElementById('submit').addEventListener('click', function () {
+        // 读取 html
+        var option_a =  $("#option_a").val()
+        // alert(option_a)
+        var url = window.location.href;
+
+        // alert(url)
+
+        var data = {
+            "Question": editor1.txt.html(),
+            "OptionA": $("#option_a").val(),
+            "OptionB": $("#option_b").val(),
+            "OptionC": $("#option_c").val(),
+            "OptionD": $("#option_d").val(),
+            "OptionE": $("#option_e").val(),
+            "Answer":  $('input[name="answer"]:checked').val(),
+            "Chapter": $('input[name="chapter"]:checked').val(),
+            "Course": $("#course").val(),
+            "Reason": editor2.txt.html(),
+            "KeyPoint": $("#keypoint").val()
+        }
+        alert(JSON.stringify(data))
+        $.ajax({
+            type: 'POST',
+            url: domain+"/v1/choice_question/",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: JSON.stringify(data),
+            success: function(res){
+                window.location.href=url;
+
+            },
+            error: function (res,data) {
+                alert('出错啦,再试一次吧'+ res.toString()+data);
+            }
+        })
+    }, false)
+
+
+</script>
+</body>
+</html>

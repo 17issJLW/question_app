@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>beego application error</title>
+    <style>
+        html, body, body * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #header {
+            background: #ffd;
+            border-bottom: solid 2px #A31515;
+            padding: 20px 10px;
+        }
+
+        #header h2 {
+        }
+
+        #footer {
+            border-top: solid 1px #aaa;
+            padding: 5px 10px;
+            font-size: 12px;
+            color: green;
+        }
+
+        #content {
+            padding: 5px;
+        }
+
+        #content .stack b {
+            font-size: 13px;
+            color: red;
+        }
+
+        #content .stack pre {
+            padding-left: 10px;
+        }
+
+        table {
+        }
+
+        td.t {
+            text-align: right;
+            padding-right: 5px;
+            color: #888;
+        }
+    </style>
+    <script type="text/javascript">
+    </script>
+</head>
+<body>
+<div id="header">
+    <h2>test:&lt;Ormer&gt; cannot use non-ptr model struct `github.com/astaxie/beego/orm.Params`</h2>
+</div>
+<div id="content">
+    <table>
+        <tr>
+            <td class="t">Request Method:</td>
+            <td>POST</td>
+        </tr>
+        <tr>
+            <td class="t">Request URL:</td>
+            <td>/v1/choice_history/129</td>
+        </tr>
+        <tr>
+            <td class="t">RemoteAddr:</td>
+            <td>127.0.0.1</td>
+        </tr>
+    </table>
+    <div class="stack">
+        <b>Stack</b>
+        <pre>D:/game/Go/src/runtime/asm_amd64.s:522
+D:/game/Go/src/runtime/panic.go:513
+C:/Users/hasee/go/src/github.com/astaxie/beego/orm/orm.go:107
+C:/Users/hasee/go/src/github.com/astaxie/beego/orm/orm.go:235
+C:/Users/hasee/go/src/test/models/choice_history.go:38
+C:/Users/hasee/go/src/test/controllers/choice_history.go:27
+C:/Users/hasee/go/src/github.com/astaxie/beego/router.go:836
+D:/game/Go/src/net/http/server.go:2741
+D:/game/Go/src/net/http/server.go:1847
+D:/game/Go/src/runtime/asm_amd64.s:1333
+</pre>
+    </div>
+</div>
+<div id="footer">
+    <p>beego 1.11.1 (beego framework)</p>
+    <p>golang version: go1.11.4</p>
+</div>
+</body>
+</html>
